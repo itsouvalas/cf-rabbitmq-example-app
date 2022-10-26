@@ -125,8 +125,9 @@ end
 def client
   unless $client
     begin
-      verify_peer_value = (ENV["RABBITMQ_SKIP_SSL"] != "1")
-      c = Bunny.new(:verify_peer => verify_peer_value, :addresses => rabbitmq_creds('hostnames'), :username => rabbitmq_creds('username'), :password => rabbitmq_creds('password'), :vhost => rabbitmq_creds('vhost'))
+      verify_peer_value = ENV["RABBITMQ_CHECK_SSL"] || false
+      use_tls = ENV["RABBITMQ_USE_TLS"] || false
+      c = Bunny.new(:tls => use_tls, :verify_peer => verify_peer_value, :addresses => rabbitmq_creds('hostnames'), :username => rabbitmq_creds('username'), :password => rabbitmq_creds('password'), :vhost => rabbitmq_creds('vhost'))
       c.start
       $client = c.create_channel
     rescue Exception => e
