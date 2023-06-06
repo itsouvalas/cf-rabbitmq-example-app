@@ -1,6 +1,7 @@
 ---
 applications:
 - name: rabbitmq
-  memory: 256M
+  memory: 512M
   instances: 1
+  disk_quota: 1024M
   path: .
